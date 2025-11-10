@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("api/designation")
 @CrossOrigin(origins = {
 	    "http://localhost:3000",
-	    "https://fullstack-hostinger-6.onrender.com"
+	    "https://fullstack-hostinger-frontend1.onrender.com"
 	})public class DesignmentController {
 
 	@Autowired
