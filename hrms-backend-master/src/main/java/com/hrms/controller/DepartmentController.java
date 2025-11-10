@@ -21,8 +21,10 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("api/department")
-@CrossOrigin(origins = "http://localhost:3000")
-public class DepartmentController {
+@CrossOrigin(origins = {
+	    "http://localhost:3000",
+	    "https://fullstack-hostinger-6.onrender.com"
+	})public class DepartmentController {
 
 	@Autowired
 	private DepartmentService departmentService;

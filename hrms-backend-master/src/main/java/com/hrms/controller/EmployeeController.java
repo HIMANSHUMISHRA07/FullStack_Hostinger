@@ -29,8 +29,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("api/employee")
-@CrossOrigin(origins = "http://localhost:3000")
-public class EmployeeController {
+@CrossOrigin(origins = {
+	    "http://localhost:3000",
+	    "https://fullstack-hostinger-6.onrender.com"
+	})public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;

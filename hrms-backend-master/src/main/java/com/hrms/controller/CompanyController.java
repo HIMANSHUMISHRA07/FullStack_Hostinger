@@ -20,8 +20,10 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("api/company")
-@CrossOrigin(origins = "http://localhost:3000")
-public class CompanyController {
+@CrossOrigin(origins = {
+	    "http://localhost:3000",
+	    "https://fullstack-hostinger-6.onrender.com"
+	})public class CompanyController {
 
 	@Autowired
 	private CompanyService companyService;
