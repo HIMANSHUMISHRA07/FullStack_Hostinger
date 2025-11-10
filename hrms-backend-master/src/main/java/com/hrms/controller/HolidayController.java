@@ -22,10 +22,11 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/holiday")
-@CrossOrigin(origins = {
-	    "http://localhost:3000",
-	    "https://fullstack-hostinger-frontend1.onrender.com"
-	})@Validated
+//@CrossOrigin(origins = {
+//	    "http://localhost:3000",
+//	    "https://fullstack-hostinger-frontend1.onrender.com"
+//	})
+@Validated
 public class HolidayController {
 
     @Autowired

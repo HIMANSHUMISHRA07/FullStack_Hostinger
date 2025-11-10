@@ -24,10 +24,11 @@ import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("api/leave/request")
-@CrossOrigin(origins = {
-	    "http://localhost:3000",
-	    "https://fullstack-hostinger-frontend1.onrender.com"
-	})@Validated
+//@CrossOrigin(origins = {
+//	    "http://localhost:3000",
+//	    "https://fullstack-hostinger-6.onrender.com"
+//	})
+@Validated
 public class LeaveRequestController {
 
     @Autowired

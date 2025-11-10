@@ -19,10 +19,10 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("api/attendance")
-@CrossOrigin(origins = {
-	    "http://localhost:3000",
-	    "https://fullstack-hostinger-frontend1.onrender.com"
-	})
+//@CrossOrigin(origins = {
+//	    "http://localhost:3000",
+//	    "https://fullstack-hostinger-frontend1.onrender.com"
+//	})
 public class AttendanceController {
 
 	@Autowired

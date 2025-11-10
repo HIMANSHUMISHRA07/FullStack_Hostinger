@@ -33,10 +33,11 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("api/payslip")
-@CrossOrigin(origins = {
-	    "http://localhost:3000",
-	    "https://fullstack-hostinger-frontend1.onrender.com"
-	})public class PayslipController {
+//@CrossOrigin(origins = {
+//	    "http://localhost:3000",
+//	    "https://fullstack-hostinger-frontend1.onrender.com"
+//	})
+public class PayslipController {
 
 	@Autowired
 	private PaySlipService paySlipService;

@@ -22,10 +22,11 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/job")
-@CrossOrigin(origins = {
-	    "http://localhost:3000",
-	    "https://fullstack-hostinger-frontend1.onrender.com"
-	})public class JobController {
+//@CrossOrigin(origins = {
+//	    "http://localhost:3000",
+//	    "https://fullstack-hostinger-frontend1.onrender.com"
+//	})
+public class JobController {
 
 	@Autowired
 	private JobService jobService;
