@@ -20,7 +20,7 @@ public class GlobalCorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                             "http://localhost:3000",
-                            "https://fullstack-hostinger-frontend5.onrender.com"
+                            "https://fullstack-hostinger-frontend6.onrender.com"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
