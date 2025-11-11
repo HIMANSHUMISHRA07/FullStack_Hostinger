@@ -1,100 +1,3 @@
-//package com.hrms.config;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.AuthenticationProvider;
-//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-//
-//import com.hrms.filter.JwtAuthFilter;
-//import com.hrms.utility.Constants.UserRole;
-//
-//@Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity
-//public class SecurityConfig {
-//
-//	@Autowired
-//	private JwtAuthFilter authFilter;
-//
-//	@Bean
-//	// authentication
-//	public UserDetailsService userDetailsService() {
-//		return new CustomUserDetailsService();
-//	}
-//
-//	@Bean
-//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//		http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable())
-//
-//				.authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/user/register").permitAll()
-//
-////						// this APIs are only accessible by ADMIN
-////						.requestMatchers("/api/user/admin/register", "/api/user/delete/seller", "/api/order/fetch/all",
-////								"/api/category/update", "/api/category/add", "/api/category/delete",
-////								"/api/user/fetch/role-wise", "/api/user/update/status")
-////						.hasAuthority(UserRole.ROLE_ADMIN.value())
-////
-////						// this APIs are only accessible by SELLER
-////						.requestMatchers("/api/user/fetch/seller/delivery-person", "/api/user/delete/seller/delivery-person", "/api/product/update/image",
-////								"/api/product/update/detail", "/api/product/add", "/api/product/delete",
-////								"/api/order/assign/delivery-person", "/api/order/fetch/seller-wise",
-////								"/api/product/review/seller")
-////						.hasAuthority(UserRole.ROLE_CUSTOMER.value())
-////
-////						// this APIs are only accessible by SELLER
-////						.requestMatchers("/api/order/add", "/api/order/fetch/user-wise", "/api/cart/update",
-////								"/api/cart/add", "/api/cart/fetch", "/api/cart/delete", "/api/product/review/add")
-////						.hasAuthority(UserRole.ROLE_CUSTOMER.value())
-////
-////						// this APIs are only accessible by ADMIN & SELLER
-////						.requestMatchers("/api/user/fetch/role-wise", "/api/user/update/status")
-////						.hasAnyAuthority(UserRole.ROLE_ADMIN.value())
-//
-//						.anyRequest().permitAll())
-//
-//				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//
-//		http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//		return http.build();
-//
-//	}
-//
-//	@Bean
-//	public PasswordEncoder passwordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
-//
-//	@Bean
-//	public AuthenticationProvider authenticationProvider() {
-//		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//		authenticationProvider.setUserDetailsService(userDetailsService());
-//		authenticationProvider.setPasswordEncoder(passwordEncoder());
-//		return authenticationProvider;
-//	}
-//
-//	@Bean
-//	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-//		return config.getAuthenticationManager();
-//	}
-//
-//}
-
-
-
 package com.hrms.config;
 
 import java.util.List;
@@ -136,50 +39,33 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             .csrf(csrf -> csrf.disable())
-            // ✅ Enable CORS instead of disabling
-            .cors()
-            .and()
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ enable custom CORS config
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/user/login",
-                    "/api/user/register",
-                    "/api/user/admin/register",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**"
-                ).permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().permitAll() // ✅ allow all requests
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             );
 
         http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
-    
-    
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-            "http://localhost:3000",
-            "*",
-            "https://fullstack-hostinger-frontend8.onrender.com"
-        ));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        config.setAllowedOriginPatterns(List.of("*")); // ✅ allow all origins
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowedHeaders(List.of("*")); // ✅ allow all headers
+        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowCredentials(true); // ✅ allow credentials (cookies, auth headers)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-    
-    
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -188,10 +74,10 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService());
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
     }
 
     @Bean
@@ -199,4 +85,3 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 }
-
