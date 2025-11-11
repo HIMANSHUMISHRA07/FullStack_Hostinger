@@ -71,8 +71,9 @@ public class WebConfig {
 
         // ✅ Add both local and Render frontend URLs
         config.setAllowedOrigins(Arrays.asList(
+        		"*",
                 "http://localhost:3000",
-                "https://fullstack-hostinger-frontend5.onrender.com"
+                "https://fullstack-hostinger-frontend8.onrender.com"
         ));
 
         // ✅ Allow all necessary headers and methods
