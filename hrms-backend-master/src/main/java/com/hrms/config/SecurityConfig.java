@@ -130,7 +130,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowCredentials(true);
+        config.setAllowCredentials(false);
 
         // 🔥 Correct way for wildcard + credentials
         config.setAllowedOriginPatterns(List.of("*"));
